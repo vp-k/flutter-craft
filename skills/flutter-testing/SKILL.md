@@ -349,27 +349,23 @@ flutter test --coverage
 genhtml coverage/lcov.info -o coverage/html
 ```
 
-## Test Dependencies (pubspec.yaml)
+## Test Dependencies
 
-```yaml
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
+```bash
+# Mocking (choose one)
+flutter pub add dev:mockito        # Requires codegen
+flutter pub add dev:mocktail       # No codegen required (recommended)
 
-  # Mocking (choose one)
-  mockito: ^5.4.5           # Requires codegen
-  mocktail: ^1.0.3          # No codegen required (recommended)
+# Code generation
+flutter pub add dev:build_runner
 
-  # Code generation
-  build_runner: ^2.4.8
+# State management testing
+flutter pub add dev:bloc_test      # If using BLoC
+flutter pub add dev:riverpod_test  # If using Riverpod (optional)
 
-  # State management testing
-  bloc_test: ^9.1.7         # If using BLoC
-  riverpod_test: ^2.0.0     # If using Riverpod (optional)
-
-  # Freezed (if using immutable states)
-  freezed: ^2.5.2
-  freezed_annotation: ^2.4.1
+# Freezed (if using immutable states)
+flutter pub add freezed_annotation
+flutter pub add dev:freezed
 ```
 
 ## Generate Mocks

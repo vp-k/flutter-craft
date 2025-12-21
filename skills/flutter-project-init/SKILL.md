@@ -183,23 +183,26 @@ sealed class Comment with _$Comment {
 
 ### Feature Details
 
-```yaml
-# Always included
-dependencies:
-  freezed_annotation: ^2.4.1
-  drift: ^2.14.1
-  get_it: ^7.6.4
-  injectable: ^2.3.2
+```bash
+# Minimal preset (always included)
+flutter pub add freezed_annotation
+flutter pub add drift
+flutter pub add get_it
+flutter pub add injectable
+flutter pub add dev:freezed
+flutter pub add dev:build_runner
+flutter pub add dev:injectable_generator
+flutter pub add dev:drift_dev
 
 # Essential preset adds
-  go_router: ^14.0.0
-  dio: ^5.4.0
-  dartz: ^0.10.1          # Either type for error handling
+flutter pub add go_router
+flutter pub add dio
+flutter pub add dartz              # Either type for error handling
 
 # Full preset adds
-  easy_localization: ^3.0.3
-  responsive_framework: ^1.1.1
-  firebase_auth: ^4.16.0  # Optional
+flutter pub add easy_localization
+flutter pub add responsive_framework
+flutter pub add firebase_auth      # Optional
 ```
 
 ---

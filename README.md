@@ -118,35 +118,33 @@ The chosen pattern should be consistent within a project.
 
 ## Recommended Packages
 
-```yaml
-dependencies:
-  # State Management (choose one)
-  flutter_riverpod: ^2.5.1      # Recommended
-  flutter_bloc: ^8.1.6          # Alternative
+```bash
+# State Management (choose one)
+flutter pub add flutter_riverpod    # Recommended
+flutter pub add flutter_bloc        # Alternative
 
-  # Immutable States
-  freezed_annotation: ^2.4.1
+# Immutable States & Code Generation
+flutter pub add freezed_annotation
+flutter pub add dev:freezed
+flutter pub add dev:build_runner
 
-  # Routing
-  go_router: ^14.0.0
+# Routing
+flutter pub add go_router
 
-  # Network
-  dio: ^5.4.0
+# Network
+flutter pub add dio
 
-  # DI
-  get_it: ^7.6.4
-  injectable: ^2.3.2
+# DI
+flutter pub add get_it
+flutter pub add injectable
+flutter pub add dev:injectable_generator
 
-dev_dependencies:
-  # Code Generation
-  riverpod_generator: ^2.4.0
-  freezed: ^2.5.2
-  build_runner: ^2.4.8
-  injectable_generator: ^2.4.1
+# Riverpod Code Generation (if using Riverpod)
+flutter pub add dev:riverpod_generator
 
-  # Testing
-  mocktail: ^1.0.3
-  bloc_test: ^9.1.7
+# Testing
+flutter pub add dev:mocktail
+flutter pub add dev:bloc_test
 ```
 
 ## Directory Structure

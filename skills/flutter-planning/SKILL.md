@@ -132,9 +132,11 @@ git commit -m "feat(<feature>): add User entity"
 **Architecture:** Clean Architecture with BLoC
 
 **Dependencies:**
-- dio: ^5.4.0
-- flutter_bloc: ^8.1.6
-- get_it: ^7.6.4
+```bash
+flutter pub add dio
+flutter pub add flutter_bloc
+flutter pub add get_it
+```
 
 ---
 

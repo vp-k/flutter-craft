@@ -70,15 +70,13 @@ UI navigates to HomeScreen
 
 ## Dependencies
 
-```yaml
-dependencies:
-  flutter_bloc: ^8.1.6
-  equatable: ^2.0.5
-  dio: ^5.4.0
-  get_it: ^7.6.4
+```bash
+flutter pub add flutter_bloc
+flutter pub add equatable
+flutter pub add dio
+flutter pub add get_it
 
-dev_dependencies:
-  mockito: ^5.4.5
-  bloc_test: ^9.1.7
-  build_runner: ^2.4.8
+flutter pub add dev:mockito
+flutter pub add dev:bloc_test
+flutter pub add dev:build_runner
 ```
