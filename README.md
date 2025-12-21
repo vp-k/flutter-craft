@@ -13,10 +13,16 @@ Flutter-Craft provides a comprehensive set of skills for Flutter development, fo
 
 ```bash
 # Clone or download to your Claude plugins directory
-git clone https://github.com/flutter-craft/flutter-craft ~/.claude/plugins/flutter-craft
+git clone https://github.com/vp-k/flutter-craft ~/.claude/plugins/flutter-craft
 ```
 
 ## Skills
+
+### Project Setup Skills
+
+| Skill | Description |
+|-------|-------------|
+| `flutter-project-init` | Create new Flutter project with Clean Architecture and domain patterns |
 
 ### Core Workflow Skills
 
@@ -115,30 +121,32 @@ The chosen pattern should be consistent within a project.
 ```yaml
 dependencies:
   # State Management (choose one)
-  flutter_riverpod: ^2.4.0      # Recommended
-  flutter_bloc: ^8.1.3          # Alternative
+  flutter_riverpod: ^2.5.1      # Recommended
+  flutter_bloc: ^8.1.6          # Alternative
 
   # Immutable States
-  freezed_annotation: ^2.4.0
+  freezed_annotation: ^2.4.1
 
   # Routing
-  go_router: ^12.0.0
+  go_router: ^14.0.0
 
   # Network
   dio: ^5.4.0
 
   # DI
-  get_it: ^7.6.0
+  get_it: ^7.6.4
+  injectable: ^2.3.2
 
 dev_dependencies:
   # Code Generation
-  riverpod_generator: ^2.3.0
-  freezed: ^2.4.0
-  build_runner: ^2.4.0
+  riverpod_generator: ^2.4.0
+  freezed: ^2.5.2
+  build_runner: ^2.4.8
+  injectable_generator: ^2.4.1
 
   # Testing
-  mocktail: ^1.0.0
-  bloc_test: ^9.1.5
+  mocktail: ^1.0.3
+  bloc_test: ^9.1.7
 ```
 
 ## Directory Structure
@@ -161,6 +169,7 @@ flutter-craft/
 │   └── skills-core.js
 ├── skills/
 │   ├── start-flutter-craft/
+│   ├── flutter-project-init/
 │   ├── flutter-brainstorming/
 │   ├── flutter-planning/
 │   ├── flutter-executing/

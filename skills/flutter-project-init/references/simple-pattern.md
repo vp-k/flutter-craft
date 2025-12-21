@@ -12,7 +12,7 @@ part 'note.freezed.dart';
 part 'note.g.dart';
 
 @freezed
-sealed class Note with _$Note {
+class Note with _$Note {
   const factory Note({
     required String id,
     required String title,
@@ -54,7 +54,7 @@ part 'note_model.freezed.dart';
 part 'note_model.g.dart';
 
 @freezed
-sealed class NoteModel with _$NoteModel {
+class NoteModel with _$NoteModel {
   const NoteModel._();
 
   const factory NoteModel({
