@@ -25,7 +25,7 @@ tools: Read, Write, Edit, Bash, Glob, Grep
 - 애니메이션 & 제스처
 
 ### 상태 관리
-- Riverpod 3.x (권장)
+- Riverpod (권장)
 - Bloc/Cubit
 - Provider
 - GetX
@@ -397,36 +397,38 @@ class MainActivity: FlutterActivity() {
 ## 추천 패키지
 
 ### 필수
-```yaml
-dependencies:
-  flutter_riverpod: ^2.5.1
-  freezed_annotation: ^2.4.1
-  go_router: ^14.0.0
-  dio: ^5.4.0
-  cached_network_image: ^3.3.1
+```bash
+# 상태 관리 & 코드 생성
+flutter pub add flutter_riverpod
+flutter pub add freezed_annotation
+flutter pub add dev:riverpod_generator
+flutter pub add dev:freezed
+flutter pub add dev:build_runner
 
-dev_dependencies:
-  riverpod_generator: ^2.4.0
-  freezed: ^2.5.2
-  build_runner: ^2.4.8
-  mocktail: ^1.0.3
+# 라우팅 & 네트워크
+flutter pub add go_router
+flutter pub add dio
+flutter pub add cached_network_image
+
+# 테스트
+flutter pub add dev:mocktail
 ```
 
 ### 선택적
-```yaml
+```bash
 # 애니메이션
-flutter_animate: ^4.2.0
+flutter pub add flutter_animate
 
 # 아이콘
-flutter_svg: ^2.0.0
-hugeicons: ^0.0.7
+flutter pub add flutter_svg
+flutter pub add hugeicons
 
 # 로컬 저장소
-hive: ^2.2.0
-shared_preferences: ^2.2.0
+flutter pub add hive
+flutter pub add shared_preferences
 
 # Firebase
-firebase_core: ^2.24.0
-firebase_auth: ^4.16.0
-cloud_firestore: ^4.14.0
+flutter pub add firebase_core
+flutter pub add firebase_auth
+flutter pub add cloud_firestore
 ```

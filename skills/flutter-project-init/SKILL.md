@@ -334,7 +334,7 @@ Based on selected preset, add all required dependencies.
 
 ```bash
 flutter pub get
-dart run build_runner build --delete-conflicting-outputs
+flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
 ### 4.6 Validation (REQUIRED)
@@ -347,7 +347,7 @@ flutter analyze
 
 If errors exist:
 1. Fix each error
-2. Re-run `dart run build_runner build`
+2. Re-run `flutter pub run build_runner build`
 3. Re-run `flutter analyze`
 4. Repeat until 0 errors
 
@@ -377,7 +377,7 @@ git commit -m "Initial commit: <project_name> with Clean Architecture
 - [ ] Database tables created in Drift
 - [ ] DI configured with injectable
 - [ ] `flutter pub get` successful
-- [ ] `dart run build_runner build` successful
+- [ ] `flutter pub run build_runner build` successful
 - [ ] `flutter analyze` returns 0 errors
 - [ ] Git initialized with initial commit
 
