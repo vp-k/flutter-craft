@@ -357,19 +357,19 @@ dev_dependencies:
     sdk: flutter
 
   # Mocking (choose one)
-  mockito: ^5.4.4           # Requires codegen
-  mocktail: ^1.0.0          # No codegen required (recommended)
+  mockito: ^5.4.5           # Requires codegen
+  mocktail: ^1.0.3          # No codegen required (recommended)
 
   # Code generation
   build_runner: ^2.4.8
 
   # State management testing
-  bloc_test: ^9.1.5         # If using BLoC
+  bloc_test: ^9.1.7         # If using BLoC
   riverpod_test: ^2.0.0     # If using Riverpod (optional)
 
   # Freezed (if using immutable states)
-  freezed: ^2.4.0
-  freezed_annotation: ^2.4.0
+  freezed: ^2.5.2
+  freezed_annotation: ^2.4.1
 ```
 
 ## Generate Mocks

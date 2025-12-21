@@ -192,7 +192,7 @@ dependencies:
   injectable: ^2.3.2
 
 # Essential preset adds
-  go_router: ^13.0.1
+  go_router: ^14.0.0
   dio: ^5.4.0
   dartz: ^0.10.1          # Either type for error handling
 
@@ -411,3 +411,5 @@ For detailed code templates per pattern, see:
 - `references/categorized-pattern.md`
 - `references/tracked-pattern.md`
 - `references/relational-pattern.md`
+
+> **Note:** Custom 패턴은 사용자 정의 필드를 직접 설계하므로 별도 템플릿이 없습니다.
