@@ -1,284 +1,292 @@
 ---
 name: flutter-project-init
-description: Creates a new Flutter project with Clean Architecture structure, essential dependencies, and best practice configurations
+description: Creates a new Flutter project with Clean Architecture, domain pattern boilerplate, and production-ready setup
 ---
 
-# Flutter Project Initialization Skill
+# Flutter Project Initialization
 
-Use this skill when:
-- User says "create project", "new project", "start project"
-- User wants to build a new Flutter app from scratch
-- No existing Flutter project in current directory
+Use when: "new project", "create project", "start project", "init flutter"
 
-## Pre-flight Checklist
+## Workflow Overview
 
-Before starting, verify:
-- [ ] Flutter SDK installed (`flutter --version`)
-- [ ] Project name provided (or ask user)
-- [ ] Target platforms confirmed (default: Android, iOS, Web)
+```
+Step 1: Project Info     → name, org, description
+Step 2: Domain Pattern   → Simple/Stateful/Categorized/Tracked/Relational/Custom
+Step 3: Tech Stack       → State Management, Features
+Step 4: Generate & Verify → create, build, analyze
+```
+
+---
 
 ## Step 1: Gather Project Info
 
 Ask user for:
-1. **Project name** (snake_case, e.g., `my_awesome_app`)
-2. **Organization** (reverse domain, e.g., `com.example`)
-3. **Description** (one-liner for pubspec.yaml)
-4. **State Management** preference:
-   - BLoC (Recommended for large apps)
-   - Riverpod (Modern, compile-safe)
-   - Provider (Simple, Google-recommended)
 
-## Step 2: Create Flutter Project
+| Field | Example | Required |
+|-------|---------|----------|
+| Project name | `my_app` (snake_case) | Yes |
+| Organization | `com.example` | Yes |
+| Description | "Task management app" | Yes |
+| Entity name | `Task`, `Note`, `Expense` | Yes |
 
-```bash
-flutter create --org <organization> --project-name <project_name> <project_name>
-cd <project_name>
+---
+
+## Step 2: Domain Pattern Selection (CRUD 기반)
+
+Ask user to choose:
+
+| Pattern | Examples | Generated Structure |
+|---------|----------|---------------------|
+| **Simple** | Note, Memo, Bookmark | 단일 엔티티 CRUD |
+| **Stateful** | Todo, Task, Order | 상태 필드 포함 (완료/진행중 등) |
+| **Categorized** | Expense, Product, Recipe | 카테고리 관계 포함 |
+| **Tracked** | Habit, Workout, Study | 시간/날짜 기반 트래킹 |
+| **Relational** | Blog (User-Post-Comment) | 다중 엔티티 관계 |
+| **Custom** | - | 사용자 정의 필드 |
+
+### Pattern별 생성 코드
+
+#### Simple Pattern
+```dart
+// Entity
+@freezed
+sealed class Note with _$Note {
+  const factory Note({
+    required String id,
+    required String title,
+    required String content,
+    required DateTime createdAt,
+    DateTime? updatedAt,
+  }) = _Note;
+}
 ```
 
-## Step 3: Setup Clean Architecture Structure
+#### Stateful Pattern
+```dart
+// Entity with status
+@freezed
+sealed class Task with _$Task {
+  const factory Task({
+    required String id,
+    required String title,
+    required String description,
+    @Default(TaskStatus.pending) TaskStatus status,
+    required DateTime createdAt,
+    DateTime? completedAt,
+  }) = _Task;
+}
 
-Create the following folder structure:
+enum TaskStatus { pending, inProgress, completed, cancelled }
+```
+
+#### Categorized Pattern
+```dart
+// Entity with category relation
+@freezed
+sealed class Expense with _$Expense {
+  const factory Expense({
+    required String id,
+    required String title,
+    required double amount,
+    required String categoryId,
+    required DateTime date,
+    String? note,
+  }) = _Expense;
+}
+
+@freezed
+sealed class Category with _$Category {
+  const factory Category({
+    required String id,
+    required String name,
+    required String icon,
+    required String color,
+  }) = _Category;
+}
+```
+
+#### Tracked Pattern
+```dart
+// Entity with time tracking
+@freezed
+sealed class Habit with _$Habit {
+  const factory Habit({
+    required String id,
+    required String name,
+    required String description,
+    required HabitFrequency frequency,
+    required List<DateTime> completedDates,
+    required int currentStreak,
+    required int bestStreak,
+    required DateTime createdAt,
+  }) = _Habit;
+}
+
+enum HabitFrequency { daily, weekly, monthly }
+```
+
+#### Relational Pattern
+```dart
+// Multiple related entities
+@freezed
+sealed class User with _$User {
+  const factory User({
+    required String id,
+    required String name,
+    required String email,
+    required DateTime createdAt,
+  }) = _User;
+}
+
+@freezed
+sealed class Post with _$Post {
+  const factory Post({
+    required String id,
+    required String authorId,
+    required String title,
+    required String content,
+    required DateTime createdAt,
+    @Default(0) int likeCount,
+  }) = _Post;
+}
+
+@freezed
+sealed class Comment with _$Comment {
+  const factory Comment({
+    required String id,
+    required String postId,
+    required String authorId,
+    required String content,
+    required DateTime createdAt,
+  }) = _Comment;
+}
+```
+
+---
+
+## Step 3: Tech Stack Selection
+
+### State Management (필수 선택)
+
+| Option | Description |
+|--------|-------------|
+| **Riverpod** (Recommended) | Modern, compile-safe, testable |
+| **BLoC** | Event-driven, enterprise-grade |
+
+### Feature Presets
+
+| Preset | Includes |
+|--------|----------|
+| **Minimal** | Core only (Freezed, Drift, DI) |
+| **Essential** | + GoRouter, Dio, Error handling |
+| **Full** | + Auth, Localization, Responsive |
+
+### Feature Details
+
+```yaml
+# Always included
+dependencies:
+  freezed_annotation: ^2.4.1
+  drift: ^2.14.1
+  get_it: ^7.6.4
+  injectable: ^2.3.2
+
+# Essential preset adds
+  go_router: ^13.0.1
+  dio: ^5.4.0
+  dartz: ^0.10.1          # Either type for error handling
+
+# Full preset adds
+  easy_localization: ^3.0.3
+  responsive_framework: ^1.1.1
+  firebase_auth: ^4.16.0  # Optional
+```
+
+---
+
+## Step 4: Project Generation
+
+### 4.1 Create Flutter Project
+
+```bash
+flutter create --org <org> --project-name <name> <name>
+cd <name>
+```
+
+### 4.2 Setup Folder Structure
 
 ```
 lib/
 ├── core/
 │   ├── constants/
 │   │   └── app_constants.dart
+│   ├── database/
+│   │   └── app_database.dart
+│   ├── di/
+│   │   └── injection.dart
 │   ├── errors/
 │   │   ├── exceptions.dart
 │   │   └── failures.dart
-│   ├── network/
-│   │   └── network_info.dart
+│   ├── router/
+│   │   └── app_router.dart
 │   ├── theme/
 │   │   ├── app_colors.dart
-│   │   ├── app_text_styles.dart
 │   │   └── app_theme.dart
-│   ├── usecases/
-│   │   └── usecase.dart
 │   └── utils/
-│       └── input_validators.dart
+│       └── extensions.dart
 ├── features/
-│   └── .gitkeep
+│   └── <entity>/
+│       ├── domain/
+│       │   ├── entities/
+│       │   │   └── <entity>.dart
+│       │   ├── repositories/
+│       │   │   └── <entity>_repository.dart
+│       │   └── usecases/
+│       │       ├── create_<entity>.dart
+│       │       ├── delete_<entity>.dart
+│       │       ├── get_<entity>s.dart
+│       │       └── update_<entity>.dart
+│       ├── data/
+│       │   ├── datasources/
+│       │   │   └── <entity>_local_datasource.dart
+│       │   ├── models/
+│       │   │   └── <entity>_model.dart
+│       │   └── repositories/
+│       │       └── <entity>_repository_impl.dart
+│       └── presentation/
+│           ├── bloc/          # or providers/
+│           │   ├── <entity>_bloc.dart
+│           │   ├── <entity>_event.dart
+│           │   └── <entity>_state.dart
+│           ├── pages/
+│           │   ├── <entity>_list_page.dart
+│           │   └── <entity>_detail_page.dart
+│           └── widgets/
+│               └── <entity>_card.dart
 ├── shared/
-│   ├── widgets/
-│   │   └── .gitkeep
-│   └── extensions/
-│       └── .gitkeep
+│   └── widgets/
+│       └── loading_widget.dart
 └── main.dart
 ```
 
-## Step 4: Add Essential Dependencies
+### 4.3 Generate Base Files
 
-Update `pubspec.yaml`:
-
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-
-  # State Management (based on user choice)
-  # For BLoC:
-  flutter_bloc: ^8.1.3
-  equatable: ^2.0.5
-
-  # For Riverpod:
-  # flutter_riverpod: ^2.4.9
-  # riverpod_annotation: ^2.3.3
-
-  # For Provider:
-  # provider: ^6.1.1
-
-  # Dependency Injection
-  get_it: ^7.6.4
-  injectable: ^2.3.2
-
-  # Networking
-  dio: ^5.4.0
-  retrofit: ^4.0.3
-
-  # Local Storage
-  shared_preferences: ^2.2.2
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-
-  # Functional Programming
-  dartz: ^0.10.1
-
-  # Routing
-  go_router: ^13.0.1
-
-  # Utilities
-  intl: ^0.18.1
-  logger: ^2.0.2
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^3.0.1
-
-  # Code Generation
-  build_runner: ^2.4.7
-  injectable_generator: ^2.4.1
-  retrofit_generator: ^8.0.6
-  hive_generator: ^2.0.1
-
-  # Testing
-  mockito: ^5.4.4
-  bloc_test: ^9.1.5
-  mocktail: ^1.0.1
-```
-
-Run after updating:
-```bash
-flutter pub get
-```
-
-## Step 5: Create Base Files
-
-### core/errors/failures.dart
+#### core/errors/failures.dart
 ```dart
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-abstract class Failure extends Equatable {
-  final String message;
-  final int? code;
+part 'failures.freezed.dart';
 
-  const Failure({required this.message, this.code});
-
-  @override
-  List<Object?> get props => [message, code];
-}
-
-class ServerFailure extends Failure {
-  const ServerFailure({required super.message, super.code});
-}
-
-class CacheFailure extends Failure {
-  const CacheFailure({required super.message, super.code});
-}
-
-class NetworkFailure extends Failure {
-  const NetworkFailure({super.message = 'No internet connection'});
+@freezed
+sealed class Failure with _$Failure {
+  const factory Failure.server({required String message, int? code}) = ServerFailure;
+  const factory Failure.cache({required String message}) = CacheFailure;
+  const factory Failure.network({@Default('No internet connection') String message}) = NetworkFailure;
+  const factory Failure.validation({required String message}) = ValidationFailure;
 }
 ```
 
-### core/errors/exceptions.dart
-```dart
-class ServerException implements Exception {
-  final String message;
-  final int? statusCode;
-
-  ServerException({required this.message, this.statusCode});
-}
-
-class CacheException implements Exception {
-  final String message;
-
-  CacheException({required this.message});
-}
-```
-
-### core/usecases/usecase.dart
-```dart
-import 'package:dartz/dartz.dart';
-import '../errors/failures.dart';
-
-abstract class UseCase<Type, Params> {
-  Future<Either<Failure, Type>> call(Params params);
-}
-
-class NoParams {
-  const NoParams();
-}
-```
-
-### core/theme/app_colors.dart
-```dart
-import 'package:flutter/material.dart';
-
-class AppColors {
-  AppColors._();
-
-  // Primary
-  static const Color primary = Color(0xFF6200EE);
-  static const Color primaryVariant = Color(0xFF3700B3);
-
-  // Secondary
-  static const Color secondary = Color(0xFF03DAC6);
-  static const Color secondaryVariant = Color(0xFF018786);
-
-  // Background
-  static const Color background = Color(0xFFFAFAFA);
-  static const Color surface = Color(0xFFFFFFFF);
-
-  // Error
-  static const Color error = Color(0xFFB00020);
-
-  // Text
-  static const Color onPrimary = Color(0xFFFFFFFF);
-  static const Color onSecondary = Color(0xFF000000);
-  static const Color onBackground = Color(0xFF000000);
-  static const Color onSurface = Color(0xFF000000);
-  static const Color onError = Color(0xFFFFFFFF);
-}
-```
-
-### Dependency Injection Setup (injection.dart)
-```dart
-import 'package:get_it/get_it.dart';
-import 'package:injectable/injectable.dart';
-
-final getIt = GetIt.instance;
-
-@InjectableInit()
-Future<void> configureDependencies() async {
-  // Will be generated by build_runner
-}
-```
-
-## Step 6: Database Initialization
-
-Ask user for database preference:
-
-### Option A: Hive (Recommended for simple local storage)
-
-Create `core/database/hive_init.dart`:
-```dart
-import 'package:hive_flutter/hive_flutter.dart';
-
-class HiveInit {
-  static Future<void> init() async {
-    await Hive.initFlutter();
-
-    // Register adapters here
-    // Hive.registerAdapter(YourModelAdapter());
-
-    // Open boxes
-    // await Hive.openBox('settings');
-    // await Hive.openBox('cache');
-  }
-
-  static Future<void> clearAll() async {
-    await Hive.deleteFromDisk();
-  }
-}
-```
-
-### Option B: Drift (SQLite - for complex relational data)
-
-Add to `pubspec.yaml`:
-```yaml
-dependencies:
-  drift: ^2.14.1
-  sqlite3_flutter_libs: ^0.5.18
-  path_provider: ^2.1.1
-  path: ^1.8.3
-
-dev_dependencies:
-  drift_dev: ^2.14.1
-```
-
-Create `core/database/app_database.dart`:
+#### core/database/app_database.dart
 ```dart
 import 'dart:io';
 import 'package:drift/drift.dart';
@@ -288,179 +296,118 @@ import 'package:path/path.dart' as p;
 
 part 'app_database.g.dart';
 
-// Define tables here
-// class Users extends Table {
-//   IntColumn get id => integer().autoIncrement()();
-//   TextColumn get name => text()();
-//   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
-// }
-
-@DriftDatabase(tables: [
-  // Users,
-])
+// Tables will be added per domain pattern
+@DriftDatabase(tables: [])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
-
-  @override
-  MigrationStrategy get migration {
-    return MigrationStrategy(
-      onCreate: (Migrator m) async {
-        await m.createAll();
-      },
-      onUpgrade: (Migrator m, int from, int to) async {
-        // Handle migrations
-      },
-    );
-  }
 }
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'app_database.sqlite'));
+    final file = File(p.join(dbFolder.path, 'app.db'));
     return NativeDatabase.createInBackground(file);
   });
 }
 ```
 
-### Option C: Firebase Firestore (Cloud database)
-
-Add to `pubspec.yaml`:
-```yaml
-dependencies:
-  firebase_core: ^2.24.2
-  cloud_firestore: ^4.14.0
-  firebase_auth: ^4.16.0  # If auth needed
-```
-
-Create `core/database/firebase_init.dart`:
+#### core/di/injection.dart
 ```dart
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get_it/get_it.dart';
+import 'package:injectable/injectable.dart';
+import 'injection.config.dart';
 
-class FirebaseInit {
-  static late FirebaseFirestore _firestore;
+final getIt = GetIt.instance;
 
-  static FirebaseFirestore get firestore => _firestore;
-
-  static Future<void> init() async {
-    await Firebase.initializeApp(
-      // options: DefaultFirebaseOptions.currentPlatform, // From flutterfire configure
-    );
-    _firestore = FirebaseFirestore.instance;
-
-    // Enable offline persistence
-    _firestore.settings = const Settings(
-      persistenceEnabled: true,
-      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
-    );
-  }
-}
+@InjectableInit(preferRelativeImports: true)
+Future<void> configureDependencies() async => getIt.init();
 ```
 
-Run `flutterfire configure` to setup Firebase.
+### 4.4 Update pubspec.yaml
 
-### Database Folder Structure
+Based on selected preset, add all required dependencies.
 
-```
-lib/core/database/
-├── hive_init.dart          # Hive initialization
-├── app_database.dart       # Drift/SQLite database
-├── app_database.g.dart     # Generated (Drift)
-├── firebase_init.dart      # Firebase setup
-└── adapters/               # Hive type adapters
-    └── .gitkeep
+### 4.5 Run Code Generation
+
+```bash
+flutter pub get
+dart run build_runner build --delete-conflicting-outputs
 ```
 
-## Step 7: Update main.dart
+### 4.6 Validation (REQUIRED)
 
-```dart
-import 'package:flutter/material.dart';
-// import 'core/database/hive_init.dart';  // Uncomment based on DB choice
-// import 'injection.dart';
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Database initialization (uncomment based on choice)
-  // await HiveInit.init();           // For Hive
-  // await FirebaseInit.init();       // For Firebase
-
-  // Dependency injection
-  // await configureDependencies();   // Uncomment after running build_runner
-
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'App Name',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Welcome to Clean Architecture!'),
-        ),
-      ),
-    );
-  }
-}
+```bash
+flutter analyze
 ```
 
-## Step 7: Initialize Git
+**Must pass with 0 errors.** Info/warning level issues are acceptable.
+
+If errors exist:
+1. Fix each error
+2. Re-run `dart run build_runner build`
+3. Re-run `flutter analyze`
+4. Repeat until 0 errors
+
+---
+
+## Step 5: Initialize Git
 
 ```bash
 git init
 git add .
-git commit -m "Initial commit: Flutter project with Clean Architecture setup"
+git commit -m "Initial commit: <project_name> with Clean Architecture
+
+- Domain pattern: <selected_pattern>
+- State management: <Riverpod/BLoC>
+- Features: <selected_preset>
+
+🤖 Generated with flutter-craft"
 ```
 
-## Step 8: Create Feature Template
-
-Show user how to create a new feature:
-
-```
-To create a new feature, use the structure:
-
-lib/features/<feature_name>/
-├── domain/
-│   ├── entities/
-│   ├── repositories/
-│   └── usecases/
-├── data/
-│   ├── models/
-│   ├── datasources/
-│   └── repositories/
-└── presentation/
-    ├── bloc/ (or provider/, riverpod/)
-    ├── pages/
-    └── widgets/
-```
+---
 
 ## Completion Checklist
 
-- [ ] Flutter project created with correct name and org
-- [ ] Clean Architecture folders created
-- [ ] Dependencies added to pubspec.yaml
+- [ ] Project created with correct name/org
+- [ ] Folder structure matches Clean Architecture
+- [ ] Domain entities generated with Freezed
+- [ ] Database tables created in Drift
+- [ ] DI configured with injectable
 - [ ] `flutter pub get` successful
-- [ ] Base error handling files created
-- [ ] Theme configuration created
-- [ ] DI setup initialized
-- [ ] Git repository initialized
-- [ ] User informed about next steps
+- [ ] `dart run build_runner build` successful
+- [ ] `flutter analyze` returns 0 errors
+- [ ] Git initialized with initial commit
 
-## Next Steps After Initialization
+---
 
-Tell the user:
-1. Run `flutter pub run build_runner build` to generate DI code
-2. Use `/brainstorm` to plan first feature
-3. Follow Clean Architecture for all features
+## Output to User
+
+After completion, inform:
+
+```
+✅ Project '<name>' created successfully!
+
+📁 Structure: Clean Architecture
+📦 Pattern: <selected_pattern>
+🔄 State: <Riverpod/BLoC>
+✨ Features: <preset>
+
+Next steps:
+1. cd <name>
+2. flutter run
+3. Use /brainstorm to plan your first feature
+```
+
+---
+
+## References
+
+For detailed code templates per pattern, see:
+- `references/simple-pattern.md`
+- `references/stateful-pattern.md`
+- `references/categorized-pattern.md`
+- `references/tracked-pattern.md`
+- `references/relational-pattern.md`
