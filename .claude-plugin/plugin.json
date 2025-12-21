@@ -2,20 +2,10 @@
   "name": "flutter-craft",
   "version": "1.1.0",
   "description": "Flutter development skills for Claude Code - Feature-Driven Development with Clean Architecture",
-  "author": "Flutter-Craft Team",
-  "license": "MIT",
-  "keywords": [
-    "flutter",
-    "dart",
-    "clean-architecture",
-    "feature-driven",
-    "testing",
-    "debugging"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vp-k/flutter-craft"
+  "author": {
+    "name": "vp-k"
   },
+  "repository": "https://github.com/vp-k/flutter-craft",
   "commands": [
     "./commands/init.md",
     "./commands/brainstorm.md",
