@@ -32,6 +32,12 @@ Might any skill apply? (even 1%?)
 
 ## Available Skills
 
+### Project Setup Skills
+
+| Skill | When to Use |
+|-------|-------------|
+| **flutter-project-init** | Creating a NEW Flutter project from scratch |
+
 ### Core Workflow Skills
 
 | Skill | When to Use |
@@ -79,6 +85,7 @@ These thoughts mean STOP—you're rationalizing:
 
 | Context | Required Skill |
 |---------|---------------|
+| User says "new project", "create project", "start project" | flutter-project-init |
 | User says "add feature", "create", "build" | flutter-brainstorming → flutter-planning |
 | User says "fix bug", "error", "not working" | flutter-debugging |
 | Plan file exists in docs/plans/ | flutter-executing |

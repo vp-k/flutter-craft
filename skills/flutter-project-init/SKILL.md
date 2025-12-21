@@ -1,0 +1,466 @@
+---
+name: flutter-project-init
+description: Creates a new Flutter project with Clean Architecture structure, essential dependencies, and best practice configurations
+---
+
+# Flutter Project Initialization Skill
+
+Use this skill when:
+- User says "create project", "new project", "start project"
+- User wants to build a new Flutter app from scratch
+- No existing Flutter project in current directory
+
+## Pre-flight Checklist
+
+Before starting, verify:
+- [ ] Flutter SDK installed (`flutter --version`)
+- [ ] Project name provided (or ask user)
+- [ ] Target platforms confirmed (default: Android, iOS, Web)
+
+## Step 1: Gather Project Info
+
+Ask user for:
+1. **Project name** (snake_case, e.g., `my_awesome_app`)
+2. **Organization** (reverse domain, e.g., `com.example`)
+3. **Description** (one-liner for pubspec.yaml)
+4. **State Management** preference:
+   - BLoC (Recommended for large apps)
+   - Riverpod (Modern, compile-safe)
+   - Provider (Simple, Google-recommended)
+
+## Step 2: Create Flutter Project
+
+```bash
+flutter create --org <organization> --project-name <project_name> <project_name>
+cd <project_name>
+```
+
+## Step 3: Setup Clean Architecture Structure
+
+Create the following folder structure:
+
+```
+lib/
+├── core/
+│   ├── constants/
+│   │   └── app_constants.dart
+│   ├── errors/
+│   │   ├── exceptions.dart
+│   │   └── failures.dart
+│   ├── network/
+│   │   └── network_info.dart
+│   ├── theme/
+│   │   ├── app_colors.dart
+│   │   ├── app_text_styles.dart
+│   │   └── app_theme.dart
+│   ├── usecases/
+│   │   └── usecase.dart
+│   └── utils/
+│       └── input_validators.dart
+├── features/
+│   └── .gitkeep
+├── shared/
+│   ├── widgets/
+│   │   └── .gitkeep
+│   └── extensions/
+│       └── .gitkeep
+└── main.dart
+```
+
+## Step 4: Add Essential Dependencies
+
+Update `pubspec.yaml`:
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management (based on user choice)
+  # For BLoC:
+  flutter_bloc: ^8.1.3
+  equatable: ^2.0.5
+
+  # For Riverpod:
+  # flutter_riverpod: ^2.4.9
+  # riverpod_annotation: ^2.3.3
+
+  # For Provider:
+  # provider: ^6.1.1
+
+  # Dependency Injection
+  get_it: ^7.6.4
+  injectable: ^2.3.2
+
+  # Networking
+  dio: ^5.4.0
+  retrofit: ^4.0.3
+
+  # Local Storage
+  shared_preferences: ^2.2.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Functional Programming
+  dartz: ^0.10.1
+
+  # Routing
+  go_router: ^13.0.1
+
+  # Utilities
+  intl: ^0.18.1
+  logger: ^2.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+  # Code Generation
+  build_runner: ^2.4.7
+  injectable_generator: ^2.4.1
+  retrofit_generator: ^8.0.6
+  hive_generator: ^2.0.1
+
+  # Testing
+  mockito: ^5.4.4
+  bloc_test: ^9.1.5
+  mocktail: ^1.0.1
+```
+
+Run after updating:
+```bash
+flutter pub get
+```
+
+## Step 5: Create Base Files
+
+### core/errors/failures.dart
+```dart
+import 'package:equatable/equatable.dart';
+
+abstract class Failure extends Equatable {
+  final String message;
+  final int? code;
+
+  const Failure({required this.message, this.code});
+
+  @override
+  List<Object?> get props => [message, code];
+}
+
+class ServerFailure extends Failure {
+  const ServerFailure({required super.message, super.code});
+}
+
+class CacheFailure extends Failure {
+  const CacheFailure({required super.message, super.code});
+}
+
+class NetworkFailure extends Failure {
+  const NetworkFailure({super.message = 'No internet connection'});
+}
+```
+
+### core/errors/exceptions.dart
+```dart
+class ServerException implements Exception {
+  final String message;
+  final int? statusCode;
+
+  ServerException({required this.message, this.statusCode});
+}
+
+class CacheException implements Exception {
+  final String message;
+
+  CacheException({required this.message});
+}
+```
+
+### core/usecases/usecase.dart
+```dart
+import 'package:dartz/dartz.dart';
+import '../errors/failures.dart';
+
+abstract class UseCase<Type, Params> {
+  Future<Either<Failure, Type>> call(Params params);
+}
+
+class NoParams {
+  const NoParams();
+}
+```
+
+### core/theme/app_colors.dart
+```dart
+import 'package:flutter/material.dart';
+
+class AppColors {
+  AppColors._();
+
+  // Primary
+  static const Color primary = Color(0xFF6200EE);
+  static const Color primaryVariant = Color(0xFF3700B3);
+
+  // Secondary
+  static const Color secondary = Color(0xFF03DAC6);
+  static const Color secondaryVariant = Color(0xFF018786);
+
+  // Background
+  static const Color background = Color(0xFFFAFAFA);
+  static const Color surface = Color(0xFFFFFFFF);
+
+  // Error
+  static const Color error = Color(0xFFB00020);
+
+  // Text
+  static const Color onPrimary = Color(0xFFFFFFFF);
+  static const Color onSecondary = Color(0xFF000000);
+  static const Color onBackground = Color(0xFF000000);
+  static const Color onSurface = Color(0xFF000000);
+  static const Color onError = Color(0xFFFFFFFF);
+}
+```
+
+### Dependency Injection Setup (injection.dart)
+```dart
+import 'package:get_it/get_it.dart';
+import 'package:injectable/injectable.dart';
+
+final getIt = GetIt.instance;
+
+@InjectableInit()
+Future<void> configureDependencies() async {
+  // Will be generated by build_runner
+}
+```
+
+## Step 6: Database Initialization
+
+Ask user for database preference:
+
+### Option A: Hive (Recommended for simple local storage)
+
+Create `core/database/hive_init.dart`:
+```dart
+import 'package:hive_flutter/hive_flutter.dart';
+
+class HiveInit {
+  static Future<void> init() async {
+    await Hive.initFlutter();
+
+    // Register adapters here
+    // Hive.registerAdapter(YourModelAdapter());
+
+    // Open boxes
+    // await Hive.openBox('settings');
+    // await Hive.openBox('cache');
+  }
+
+  static Future<void> clearAll() async {
+    await Hive.deleteFromDisk();
+  }
+}
+```
+
+### Option B: Drift (SQLite - for complex relational data)
+
+Add to `pubspec.yaml`:
+```yaml
+dependencies:
+  drift: ^2.14.1
+  sqlite3_flutter_libs: ^0.5.18
+  path_provider: ^2.1.1
+  path: ^1.8.3
+
+dev_dependencies:
+  drift_dev: ^2.14.1
+```
+
+Create `core/database/app_database.dart`:
+```dart
+import 'dart:io';
+import 'package:drift/drift.dart';
+import 'package:drift/native.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
+
+part 'app_database.g.dart';
+
+// Define tables here
+// class Users extends Table {
+//   IntColumn get id => integer().autoIncrement()();
+//   TextColumn get name => text()();
+//   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+// }
+
+@DriftDatabase(tables: [
+  // Users,
+])
+class AppDatabase extends _$AppDatabase {
+  AppDatabase() : super(_openConnection());
+
+  @override
+  int get schemaVersion => 1;
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        await m.createAll();
+      },
+      onUpgrade: (Migrator m, int from, int to) async {
+        // Handle migrations
+      },
+    );
+  }
+}
+
+LazyDatabase _openConnection() {
+  return LazyDatabase(() async {
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final file = File(p.join(dbFolder.path, 'app_database.sqlite'));
+    return NativeDatabase.createInBackground(file);
+  });
+}
+```
+
+### Option C: Firebase Firestore (Cloud database)
+
+Add to `pubspec.yaml`:
+```yaml
+dependencies:
+  firebase_core: ^2.24.2
+  cloud_firestore: ^4.14.0
+  firebase_auth: ^4.16.0  # If auth needed
+```
+
+Create `core/database/firebase_init.dart`:
+```dart
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class FirebaseInit {
+  static late FirebaseFirestore _firestore;
+
+  static FirebaseFirestore get firestore => _firestore;
+
+  static Future<void> init() async {
+    await Firebase.initializeApp(
+      // options: DefaultFirebaseOptions.currentPlatform, // From flutterfire configure
+    );
+    _firestore = FirebaseFirestore.instance;
+
+    // Enable offline persistence
+    _firestore.settings = const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+    );
+  }
+}
+```
+
+Run `flutterfire configure` to setup Firebase.
+
+### Database Folder Structure
+
+```
+lib/core/database/
+├── hive_init.dart          # Hive initialization
+├── app_database.dart       # Drift/SQLite database
+├── app_database.g.dart     # Generated (Drift)
+├── firebase_init.dart      # Firebase setup
+└── adapters/               # Hive type adapters
+    └── .gitkeep
+```
+
+## Step 7: Update main.dart
+
+```dart
+import 'package:flutter/material.dart';
+// import 'core/database/hive_init.dart';  // Uncomment based on DB choice
+// import 'injection.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Database initialization (uncomment based on choice)
+  // await HiveInit.init();           // For Hive
+  // await FirebaseInit.init();       // For Firebase
+
+  // Dependency injection
+  // await configureDependencies();   // Uncomment after running build_runner
+
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'App Name',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const Scaffold(
+        body: Center(
+          child: Text('Welcome to Clean Architecture!'),
+        ),
+      ),
+    );
+  }
+}
+```
+
+## Step 7: Initialize Git
+
+```bash
+git init
+git add .
+git commit -m "Initial commit: Flutter project with Clean Architecture setup"
+```
+
+## Step 8: Create Feature Template
+
+Show user how to create a new feature:
+
+```
+To create a new feature, use the structure:
+
+lib/features/<feature_name>/
+├── domain/
+│   ├── entities/
+│   ├── repositories/
+│   └── usecases/
+├── data/
+│   ├── models/
+│   ├── datasources/
+│   └── repositories/
+└── presentation/
+    ├── bloc/ (or provider/, riverpod/)
+    ├── pages/
+    └── widgets/
+```
+
+## Completion Checklist
+
+- [ ] Flutter project created with correct name and org
+- [ ] Clean Architecture folders created
+- [ ] Dependencies added to pubspec.yaml
+- [ ] `flutter pub get` successful
+- [ ] Base error handling files created
+- [ ] Theme configuration created
+- [ ] DI setup initialized
+- [ ] Git repository initialized
+- [ ] User informed about next steps
+
+## Next Steps After Initialization
+
+Tell the user:
+1. Run `flutter pub run build_runner build` to generate DI code
+2. Use `/brainstorm` to plan first feature
+3. Follow Clean Architecture for all features
