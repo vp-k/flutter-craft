@@ -134,7 +134,7 @@ git commit -m "feat(<feature>): add User entity"
 **Dependencies:**
 - dio: ^5.4.0
 - flutter_bloc: ^8.1.6
-- get_it: ^7.6.0
+- get_it: ^7.6.4
 
 ---
 

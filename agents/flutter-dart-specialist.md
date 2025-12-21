@@ -399,17 +399,17 @@ class MainActivity: FlutterActivity() {
 ### 필수
 ```yaml
 dependencies:
-  flutter_riverpod: ^2.4.0
-  freezed_annotation: ^2.4.0
-  go_router: ^12.0.0
-  dio: ^5.3.0
-  cached_network_image: ^3.3.0
-  
+  flutter_riverpod: ^2.5.1
+  freezed_annotation: ^2.4.1
+  go_router: ^14.0.0
+  dio: ^5.4.0
+  cached_network_image: ^3.3.1
+
 dev_dependencies:
-  riverpod_generator: ^2.3.0
-  freezed: ^2.4.0
-  build_runner: ^2.4.0
-  mocktail: ^1.0.0
+  riverpod_generator: ^2.4.0
+  freezed: ^2.5.2
+  build_runner: ^2.4.8
+  mocktail: ^1.0.3
 ```
 
 ### 선택적
