@@ -1,0 +1,14 @@
+{
+  "name": "flutter-craft",
+  "description": "Flutter development skills for Claude Code",
+  "owner": {
+    "name": "vp-k"
+  },
+  "plugins": [
+    {
+      "name": "flutter-craft",
+      "source": "..",
+      "description": "Flutter Feature-Driven Development with Clean Architecture"
+    }
+  ]
+}

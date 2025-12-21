@@ -14,8 +14,11 @@ Flutter-Craft provides a comprehensive set of skills for Flutter development, fo
 ## Installation
 
 ```bash
-# Clone or download to your Claude plugins directory
-git clone https://github.com/vp-k/flutter-craft ~/.claude/plugins/flutter-craft
+# Step 1: Add marketplace
+/plugin marketplace add https://github.com/vp-k/flutter-craft.git
+
+# Step 2: Install plugin
+/plugin install flutter-craft@vp-k/flutter-craft
 ```
 
 ## Skills

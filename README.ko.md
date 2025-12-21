@@ -14,8 +14,11 @@ Flutter-Craft는 다음 원칙을 따르는 Flutter 개발 스킬 세트를 제�
 ## 설치
 
 ```bash
-# Claude plugins 디렉토리에 클론
-git clone https://github.com/vp-k/flutter-craft ~/.claude/plugins/flutter-craft
+# 1단계: 마켓플레이스 추가
+/plugin marketplace add https://github.com/vp-k/flutter-craft.git
+
+# 2단계: 플러그인 설치
+/plugin install flutter-craft@vp-k/flutter-craft
 ```
 
 ## 스킬
