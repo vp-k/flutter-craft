@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "flutter-craft",
-      "source": ".",
+      "source": "./plugins/flutter-craft",
       "description": "Flutter Feature-Driven Development with Clean Architecture"
     }
   ]
