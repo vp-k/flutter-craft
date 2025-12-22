@@ -8,8 +8,8 @@
     {
       "name": "flutter-craft",
       "source": {
-        "source": "url",
-        "url": "https://github.com/vp-k/flutter-craft.git"
+        "source": "github",
+        "repo": "vp-k/flutter-craft"
       },
       "description": "Flutter Feature-Driven Development with Clean Architecture"
     }
