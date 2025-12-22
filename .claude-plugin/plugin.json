@@ -6,10 +6,8 @@
     "name": "vp-k"
   },
   "repository": "https://github.com/vp-k/flutter-craft",
-  "commands": [
-    "./commands/init.md",
-    "./commands/brainstorm.md",
-    "./commands/plan.md",
-    "./commands/execute.md"
-  ]
+  "commands": "./commands/",
+  "agents": "./agents/",
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json"
 }

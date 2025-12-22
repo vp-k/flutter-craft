@@ -1,5 +1,5 @@
 ---
-description: "Initialize a new Flutter project with Clean Architecture, domain patterns, and production-ready setup"
+description: "Use this to create a NEW Flutter project from scratch with Clean Architecture and Feature-Driven Development structure."
 ---
 
 Use and follow the flutter-project-init skill exactly as written.
