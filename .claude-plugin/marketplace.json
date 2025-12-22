@@ -7,10 +7,7 @@
   "plugins": [
     {
       "name": "flutter-craft",
-      "source": {
-        "source": "url",
-        "url": "https://github.com/vp-k/flutter-craft.git"
-      },
+      "source": ".",
       "description": "Flutter Feature-Driven Development with Clean Architecture"
     }
   ]
