@@ -1,6 +1,6 @@
 {
   "name": "bitlab",
-  "description": "Flutter development skills for Claude Code",
+  "description": "Development skills for Claude Code",
   "owner": {
     "name": "vp-k"
   },
@@ -9,6 +9,11 @@
       "name": "flutter-craft",
       "source": "./plugins/flutter-craft",
       "description": "Flutter Feature-Driven Development with Clean Architecture"
+    },
+    {
+      "name": "design-polish",
+      "source": "./plugins/design-polish",
+      "description": "Design polishing with WCAG accessibility checks"
     }
   ]
 }

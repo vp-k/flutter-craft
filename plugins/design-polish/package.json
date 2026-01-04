@@ -1,0 +1,28 @@
+{
+  "name": "design-polish",
+  "version": "1.0.0",
+  "description": "Design reference-based polishing with WCAG accessibility checks for Claude Code",
+  "private": true,
+  "type": "commonjs",
+  "main": "scripts/capture.cjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "capture": "node scripts/capture.cjs",
+    "postinstall": "echo Design-polish plugin installed successfully"
+  },
+  "dependencies": {
+    "puppeteer": "^23.0.0",
+    "@axe-core/puppeteer": "^4.10.0"
+  },
+  "keywords": [
+    "claude-code",
+    "claude-plugin",
+    "design",
+    "accessibility",
+    "wcag",
+    "puppeteer"
+  ],
+  "license": "MIT"
+}
