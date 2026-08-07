@@ -10,7 +10,7 @@ PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 # get nothing — silent exit is the "allow" for SessionStart hooks.
 is_flutter_project() {
     local dir="$1"
-    [[ -f "${dir}/pubspec.yaml" ]] && grep -q 'flutter' "${dir}/pubspec.yaml"
+    [[ -f "${dir}/pubspec.yaml" ]] && grep -qE '^[[:space:]]*(flutter|sdk:[[:space:]]*flutter)' "${dir}/pubspec.yaml"
 }
 flutter_project_found=false
 if is_flutter_project "."; then

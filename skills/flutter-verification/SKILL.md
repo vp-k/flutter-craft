@@ -21,6 +21,8 @@ NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE
 
 If you haven't run the verification command in this message, you cannot claim it passes.
 
+> Note: This is an agent-discipline convention enforced by the workflow, not a mechanical gate — flutter-craft ships only a SessionStart hook, so nothing blocks a premature completion claim at the tool level. The rule holds only insofar as the agent follows it.
+
 ## Flutter Verification Commands
 
 ### 1. Static Analysis (Always Required)

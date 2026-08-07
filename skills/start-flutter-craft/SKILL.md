@@ -88,7 +88,7 @@ These thoughts mean STOP—you're rationalizing:
 | User says "new project", "create project", "start project" | flutter-project-init |
 | User says "add feature", "create", "build" | flutter-brainstorming → flutter-planning |
 | User says "fix bug", "error", "not working" | flutter-debugging |
-| Plan file exists in docs/plans/ | flutter-executing |
+| Plan file (`*-plan.md`) exists in docs/plans/ | flutter-executing |
 | About to say "done", "complete", "fixed" | flutter-verification FIRST |
 | User says "review", "check my code" | flutter-review-request |
 | Multiple independent tasks identified | flutter-parallel-agents |
