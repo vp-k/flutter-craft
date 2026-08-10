@@ -135,6 +135,7 @@ class Auth extends _$Auth {
    - Priority 1: Repository, DataSource unit tests
    - Priority 2: State management (BLoC/Provider) unit tests
    - Priority 3: Widget tests (optional)
+   - Priority 4: Golden tests (optional, visual regression)
 
 **Ask after each section:** "Does this look right so far?"
 

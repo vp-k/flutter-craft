@@ -171,7 +171,8 @@ After all tasks complete and verified:
 4. Test tasks after implementation
    ├── Repository tests (priority 1)
    ├── State tests (priority 2)
-   └── Widget tests (priority 3)
+   ├── Widget tests (priority 3, optional)
+   └── Golden tests (priority 4, optional, visual regression)
 ```
 
 **If plan doesn't follow this order, raise concern before starting.**

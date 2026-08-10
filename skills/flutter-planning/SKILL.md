@@ -36,7 +36,8 @@ Write comprehensive implementation plans assuming the engineer has zero context 
 4. Tests (After implementation)
    ├── Priority 1: Repository, DataSource unit tests
    ├── Priority 2: State management unit tests
-   └── Priority 3: Widget tests (optional)
+   ├── Priority 3: Widget tests (optional)
+   └── Priority 4: Golden tests (optional, visual regression)
 
 5. Integration & Wiring
    └── DI setup (get_it, injectable, etc.)
